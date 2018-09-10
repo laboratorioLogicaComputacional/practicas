@@ -1,0 +1,86 @@
+#+LATEX_CLASS: article
+#+LANGUAGE: es
+#+LATEX_HEADER: \usepackage[AUTO]{babel}
+#+LATEX_HEADER: \usepackage{fancyvrb}
+#+OPTIONS: toc:nil
+#+DATE:
+#+AUTHOR: Dr. Miguel Carrillo Barajas \\
+#+AUTHOR: Estefanía Prieto Larios \\
+#+AUTHOR: Mauricio Esquivel Reyes \\
+#+TITLE: Sesión de laboratorio 03 \\
+#+TITLE: Lógica Computacional \\
+#+TITLE: Universidad Nacional Autónoma de México
+* Estructuras
+** Naturales
+Consideremos la siguiente representación de los números naturales
+
+#+begin_src haskell
+data Natural = Cero | Suc Natural deriving (Eq, Show)
+#+end_src
+*** mayorQue :: Natural -> Natural -> Bool
+Dados dos naturales nos dice si el primero es mayor que el segundo
+Ejemlos:
+ * Main> mayorQue Cero (Suc Cero)
+   False
+ * Main> mayorQue (Suc Cero) Cero
+   True
+*** menorQue :: Natural -> Natural -> Bool
+Dados dos naturales nos dice si el primero es menor que el segundo
+Ejemlos:
+ * Main> menorQue Cero (Suc Cero)
+   True
+ * Main> menorQue (Suc Cero) Cero
+   False
+*** igual :: Natural -> Natural -> Bool
+Dados dos naturales nos dice si son iguales
+Ejemplos:
+ * Main> igual Cero (Suc Cero)
+   False
+ * Main> igual (Suc Cero) (Suc Cero)
+   True
+** Lista de naturales
+Consideremos la siguiente definición de las listas de naturales.
+#+begin_src haskell
+data ListaDeNaturales = Nil | Cons Natural ListaDeNaturales
+#+end_src
+*** concate :: ListaDeNaturales -> ListaDeNaturales -> ListaDeNaturales
+Dadas dos listas de naturales regresar la concatenación de ambas.
+Ejemplos:
+ * \*Main> concate (Cons (Suc Cero) Nil) (Cons Cero (Cons (Suc (Suc Cero)) Nil))
+   Cons (Suc Cero) (Cons Cero (Cons (Suc (Suc Cero)) Nil))
+ * \*Main> concate (Cons Cero (Cons (Suc (Suc Cero)) Nil)) (Cons (Suc Cero) Nil)
+   Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil))
+*** reversa :: ListaDeNaturales -> ListaDeNaturales
+Dada una lista regresar la reversa de dicha lista
+Ejemplos:
+ * \*Main> reversa (Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil))) 
+   Cons (Suc Cero) (Cons (Suc (Suc Cero)) (Cons Cero Nil))
+
+* Lógica Proposicional
+Consideremos la siguiente representación de la lógica proposicional.
+#+begin_src haskell
+-- Tipo de dato indice
+type Indice = Int
+
+-- Tipo de dato fórmula
+data PL = Top | Bot  | Var Indice
+              | Oneg PL 
+              | Oand PL PL | Oor PL PL 
+              | Oimp PL PL deriving (Eq, Show)
+#+end_src
+** Conjunciones
+*** conj :: PL -> [PL]
+Dada una formula regresar una lista con las conjunciones de dicha formula
+Ejemplo: 
+ * \*Main> conj Oor (Oand (Var 1) Oneg $ Var 2) (Oand Bot (Var 3))
+   [Oand (Var 1) Oneg $ Var 2, Oand Bot (Var 3)]
+*** numConj :: PL -> Int
+Dada una formula regresar el número de conjunciones que tiene dicha formula
+Ejemplo:
+ * \*Main> conj Oor (Oand (Var 1) Oneg $ Var 2) (Oand Bot (Var 3))
+   2
+** Formas normales
+*** esClausula :: PL -> Bool
+Dada una formula nos indica si es una clausula
+*** esTermino :: PL -> Bool
+Dada una formula nos indica si es un termino
