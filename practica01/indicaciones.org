@@ -7,7 +7,7 @@
 #+AUTHOR: Dr. Miguel Carrillo Barajas \\
 #+AUTHOR: Estefanía Prieto Larios \\
 #+AUTHOR: Mauricio Esquivel Reyes \\
-#+TITLE: Sesión de laboratorio 03 \\
+#+TITLE: Práctica 01 \\
 #+TITLE: Lógica Computacional \\
 #+TITLE: Universidad Nacional Autónoma de México
 * Estructuras
@@ -18,25 +18,25 @@ Consideremos la siguiente representación de los números naturales
 data Natural = Cero | Suc Natural deriving (Eq, Show)
 #+end_src
 *** mayorQue :: Natural -> Natural -> Bool
-Dados dos naturales nos dice si el primero es mayor que el segundo
+Dados dos naturales nos dice si el primero es mayor que el segundo.\\
 Ejemlos:
- * Main> mayorQue Cero (Suc Cero)
+ * Main> mayorQue Cero (Suc Cero)\\
    False
- * Main> mayorQue (Suc Cero) Cero
+ * Main> mayorQue (Suc Cero) Cero\\
    True
 *** menorQue :: Natural -> Natural -> Bool
-Dados dos naturales nos dice si el primero es menor que el segundo
+Dados dos naturales nos dice si el primero es menor que el segundo.\\
 Ejemlos:
- * Main> menorQue Cero (Suc Cero)
+ * Main> menorQue Cero (Suc Cero)\\
    True
- * Main> menorQue (Suc Cero) Cero
+ * Main> menorQue (Suc Cero) Cero\\
    False
 *** igual :: Natural -> Natural -> Bool
-Dados dos naturales nos dice si son iguales
+Dados dos naturales nos dice si son iguales.\\
 Ejemplos:
- * Main> igual Cero (Suc Cero)
+ * Main> igual Cero (Suc Cero)\\
    False
- * Main> igual (Suc Cero) (Suc Cero)
+ * Main> igual (Suc Cero) (Suc Cero)\\
    True
 ** Lista de naturales
 Consideremos la siguiente definición de las listas de naturales.
@@ -44,16 +44,16 @@ Consideremos la siguiente definición de las listas de naturales.
 data ListaDeNaturales = Nil | Cons Natural ListaDeNaturales
 #+end_src
 *** concate :: ListaDeNaturales -> ListaDeNaturales -> ListaDeNaturales
-Dadas dos listas de naturales regresar la concatenación de ambas.
+Dadas dos listas de naturales regresar la concatenación de ambas.\\
 Ejemplos:
- * \*Main> concate (Cons (Suc Cero) Nil) (Cons Cero (Cons (Suc (Suc Cero)) Nil))
+ * Main> concate (Cons (Suc Cero) Nil) (Cons Cero (Cons (Suc (Suc Cero)) Nil))\\
    Cons (Suc Cero) (Cons Cero (Cons (Suc (Suc Cero)) Nil))
- * \*Main> concate (Cons Cero (Cons (Suc (Suc Cero)) Nil)) (Cons (Suc Cero) Nil)
+ * Main> concate (Cons Cero (Cons (Suc (Suc Cero)) Nil)) (Cons (Suc Cero) Nil)\\
    Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil))
 *** reversa :: ListaDeNaturales -> ListaDeNaturales
-Dada una lista regresar la reversa de dicha lista
+Dada una lista regresar la reversa de dicha lista.\\
 Ejemplos:
- * \*Main> reversa (Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil))) 
+ * Main> reversa (Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil)))\\
    Cons (Suc Cero) (Cons (Suc (Suc Cero)) (Cons Cero Nil))
 
 * Lógica Proposicional
@@ -70,14 +70,14 @@ data PL = Top | Bot  | Var Indice
 #+end_src
 ** Conjunciones
 *** conj :: PL -> [PL]
-Dada una formula regresar una lista con las conjunciones de dicha formula
+Dada una formula regresar una lista con las conjunciones de dicha formula.\\
 Ejemplo: 
- * \*Main> conj Oor (Oand (Var 1) Oneg $ Var 2) (Oand Bot (Var 3))
+ * Main> conj Oor (Oand (Var 1) Oneg $ Var 2) (Oand Bot (Var 3))\\
    [Oand (Var 1) Oneg $ Var 2, Oand Bot (Var 3)]
 *** numConj :: PL -> Int
-Dada una formula regresar el número de conjunciones que tiene dicha formula
+Dada una formula regresar el número de conjunciones que tiene dicha formula.\\
 Ejemplo:
- * \*Main> conj Oor (Oand (Var 1) Oneg $ Var 2) (Oand Bot (Var 3))
+ * Main> conj Oor (Oand (Var 1) Oneg $ Var 2) (Oand Bot (Var 3))\\
    2
 ** Formas normales
 *** esClausula :: PL -> Bool

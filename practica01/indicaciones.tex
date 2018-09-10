@@ -1,4 +1,4 @@
-% Created 2018-09-10 lun 13:38
+% Created 2018-09-10 lun 14:44
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -21,7 +21,7 @@ Estefanía Prieto Larios \\
 Mauricio Esquivel Reyes \\
 }
 \date{}
-\title{Sesión de laboratorio 03 \\
+\title{Práctica 01 \\
 Lógica Computacional \\
 Universidad Nacional Autónoma de México}
 \hypersetup{
@@ -29,7 +29,7 @@ Universidad Nacional Autónoma de México}
 Estefanía Prieto Larios \\
 Mauricio Esquivel Reyes \\
 },
- pdftitle={Sesión de laboratorio 03 \\
+ pdftitle={Práctica 01 \\
 Lógica Computacional \\
 Universidad Nacional Autónoma de México},
  pdfkeywords={},
@@ -40,71 +40,71 @@ Universidad Nacional Autónoma de México},
 
 \maketitle
 \section{Estructuras}
-\label{sec:org3d4d614}
+\label{sec:orgc3aa747}
 \subsection{Naturales}
-\label{sec:org2740e15}
+\label{sec:orgba3c743}
 Consideremos la siguiente representación de los números naturales
 
 \begin{verbatim}
 data Natural = Cero | Suc Natural deriving (Eq, Show)
 \end{verbatim}
 \subsubsection{mayorQue :: Natural -> Natural -> Bool}
-\label{sec:orgef08437}
-Dados dos naturales nos dice si el primero es mayor que el segundo
+\label{sec:org644eed7}
+Dados dos naturales nos dice si el primero es mayor que el segundo.\\
 Ejemlos:
 \begin{itemize}
-\item Main> mayorQue Cero (Suc Cero)
+\item Main> mayorQue Cero (Suc Cero)\\
 False
-\item Main> mayorQue (Suc Cero) Cero
+\item Main> mayorQue (Suc Cero) Cero\\
 True
 \end{itemize}
 \subsubsection{menorQue :: Natural -> Natural -> Bool}
-\label{sec:org0ea04b6}
-Dados dos naturales nos dice si el primero es menor que el segundo
+\label{sec:orgb9c8a81}
+Dados dos naturales nos dice si el primero es menor que el segundo.\\
 Ejemlos:
 \begin{itemize}
-\item Main> menorQue Cero (Suc Cero)
+\item Main> menorQue Cero (Suc Cero)\\
 True
-\item Main> menorQue (Suc Cero) Cero
+\item Main> menorQue (Suc Cero) Cero\\
 False
 \end{itemize}
 \subsubsection{igual :: Natural -> Natural -> Bool}
-\label{sec:org531da9b}
-Dados dos naturales nos dice si son iguales
+\label{sec:org4beb979}
+Dados dos naturales nos dice si son iguales.\\
 Ejemplos:
 \begin{itemize}
-\item Main> igual Cero (Suc Cero)
+\item Main> igual Cero (Suc Cero)\\
 False
-\item Main> igual (Suc Cero) (Suc Cero)
+\item Main> igual (Suc Cero) (Suc Cero)\\
 True
 \end{itemize}
 \subsection{Lista de naturales}
-\label{sec:org83dcdc8}
+\label{sec:org07aa6c7}
 Consideremos la siguiente definición de las listas de naturales.
 \begin{verbatim}
 data ListaDeNaturales = Nil | Cons Natural ListaDeNaturales
 \end{verbatim}
 \subsubsection{concate :: ListaDeNaturales -> ListaDeNaturales -> ListaDeNaturales}
-\label{sec:org31a6a3d}
-Dadas dos listas de naturales regresar la concatenación de ambas.
+\label{sec:orgb634ffe}
+Dadas dos listas de naturales regresar la concatenación de ambas.\\
 Ejemplos:
 \begin{itemize}
-\item $\backslash$*Main> concate (Cons (Suc Cero) Nil) (Cons Cero (Cons (Suc (Suc Cero)) Nil))
+\item Main> concate (Cons (Suc Cero) Nil) (Cons Cero (Cons (Suc (Suc Cero)) Nil))\\
 Cons (Suc Cero) (Cons Cero (Cons (Suc (Suc Cero)) Nil))
-\item $\backslash$*Main> concate (Cons Cero (Cons (Suc (Suc Cero)) Nil)) (Cons (Suc Cero) Nil)
+\item Main> concate (Cons Cero (Cons (Suc (Suc Cero)) Nil)) (Cons (Suc Cero) Nil)\\
 Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil))
 \end{itemize}
 \subsubsection{reversa :: ListaDeNaturales -> ListaDeNaturales}
-\label{sec:orga8ef633}
-Dada una lista regresar la reversa de dicha lista
+\label{sec:org7521df4}
+Dada una lista regresar la reversa de dicha lista.\\
 Ejemplos:
 \begin{itemize}
-\item $\backslash$*Main> reversa (Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil))) 
+\item Main> reversa (Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil)))\\
 Cons (Suc Cero) (Cons (Suc (Suc Cero)) (Cons Cero Nil))
 \end{itemize}
 
 \section{Lógica Proposicional}
-\label{sec:org5aaca62}
+\label{sec:org5af4312}
 Consideremos la siguiente representación de la lógica proposicional.
 \begin{verbatim}
 -- Tipo de dato indice
@@ -117,29 +117,29 @@ data PL = Top | Bot  | Var Indice
               | Oimp PL PL deriving (Eq, Show)
 \end{verbatim}
 \subsection{Conjunciones}
-\label{sec:org444082f}
+\label{sec:orgb0abeed}
 \subsubsection{conj :: PL -> [PL]}
-\label{sec:org8f7788e}
-Dada una formula regresar una lista con las conjunciones de dicha formula
+\label{sec:org2d3ea08}
+Dada una formula regresar una lista con las conjunciones de dicha formula.\\
 Ejemplo: 
 \begin{itemize}
-\item $\backslash$*Main> conj Oor (Oand (Var 1) Oneg \$ Var 2) (Oand Bot (Var 3))
+\item Main> conj Oor (Oand (Var 1) Oneg \$ Var 2) (Oand Bot (Var 3))\\
 [Oand (Var 1) Oneg \$ Var 2, Oand Bot (Var 3)]
 \end{itemize}
 \subsubsection{numConj :: PL -> Int}
-\label{sec:org31745e1}
-Dada una formula regresar el número de conjunciones que tiene dicha formula
+\label{sec:org9b202e6}
+Dada una formula regresar el número de conjunciones que tiene dicha formula.\\
 Ejemplo:
 \begin{itemize}
-\item $\backslash$*Main> conj Oor (Oand (Var 1) Oneg \$ Var 2) (Oand Bot (Var 3))
+\item Main> conj Oor (Oand (Var 1) Oneg \$ Var 2) (Oand Bot (Var 3))\\
 2
 \end{itemize}
 \subsection{Formas normales}
-\label{sec:org6750248}
+\label{sec:org7e15bbc}
 \subsubsection{esClausula :: PL -> Bool}
-\label{sec:org2a6c6ff}
+\label{sec:orga80dd76}
 Dada una formula nos indica si es una clausula
 \subsubsection{esTermino :: PL -> Bool}
-\label{sec:org22f6694}
+\label{sec:org7c07d32}
 Dada una formula nos indica si es un termino
 \end{document}
