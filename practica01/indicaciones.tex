@@ -1,4 +1,4 @@
-% Created 2018-09-10 lun 14:44
+% Created 2018-09-11 mar 11:00
 % Intended LaTeX compiler: pdflatex
 \documentclass[11pt]{article}
 \usepackage[utf8]{inputenc}
@@ -40,16 +40,16 @@ Universidad Nacional Autónoma de México},
 
 \maketitle
 \section{Estructuras}
-\label{sec:orgc3aa747}
+\label{sec:org43fe393}
 \subsection{Naturales}
-\label{sec:orgba3c743}
+\label{sec:org90c0d76}
 Consideremos la siguiente representación de los números naturales
 
 \begin{verbatim}
 data Natural = Cero | Suc Natural deriving (Eq, Show)
 \end{verbatim}
 \subsubsection{mayorQue :: Natural -> Natural -> Bool}
-\label{sec:org644eed7}
+\label{sec:org40f8f56}
 Dados dos naturales nos dice si el primero es mayor que el segundo.\\
 Ejemlos:
 \begin{itemize}
@@ -59,7 +59,7 @@ False
 True
 \end{itemize}
 \subsubsection{menorQue :: Natural -> Natural -> Bool}
-\label{sec:orgb9c8a81}
+\label{sec:org9ccf5f7}
 Dados dos naturales nos dice si el primero es menor que el segundo.\\
 Ejemlos:
 \begin{itemize}
@@ -69,7 +69,7 @@ True
 False
 \end{itemize}
 \subsubsection{igual :: Natural -> Natural -> Bool}
-\label{sec:org4beb979}
+\label{sec:orgf7f5429}
 Dados dos naturales nos dice si son iguales.\\
 Ejemplos:
 \begin{itemize}
@@ -79,13 +79,13 @@ False
 True
 \end{itemize}
 \subsection{Lista de naturales}
-\label{sec:org07aa6c7}
+\label{sec:org6026b9a}
 Consideremos la siguiente definición de las listas de naturales.
 \begin{verbatim}
 data ListaDeNaturales = Nil | Cons Natural ListaDeNaturales
 \end{verbatim}
 \subsubsection{concate :: ListaDeNaturales -> ListaDeNaturales -> ListaDeNaturales}
-\label{sec:orgb634ffe}
+\label{sec:org230b4d5}
 Dadas dos listas de naturales regresar la concatenación de ambas.\\
 Ejemplos:
 \begin{itemize}
@@ -95,16 +95,15 @@ Cons (Suc Cero) (Cons Cero (Cons (Suc (Suc Cero)) Nil))
 Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil))
 \end{itemize}
 \subsubsection{reversa :: ListaDeNaturales -> ListaDeNaturales}
-\label{sec:org7521df4}
+\label{sec:orgc3617cf}
 Dada una lista regresar la reversa de dicha lista.\\
 Ejemplos:
 \begin{itemize}
 \item Main> reversa (Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil)))\\
 Cons (Suc Cero) (Cons (Suc (Suc Cero)) (Cons Cero Nil))
 \end{itemize}
-
 \section{Lógica Proposicional}
-\label{sec:org5af4312}
+\label{sec:org2b24091}
 Consideremos la siguiente representación de la lógica proposicional.
 \begin{verbatim}
 -- Tipo de dato indice
@@ -117,29 +116,59 @@ data PL = Top | Bot  | Var Indice
               | Oimp PL PL deriving (Eq, Show)
 \end{verbatim}
 \subsection{Conjunciones}
-\label{sec:orgb0abeed}
+\label{sec:orga60673c}
 \subsubsection{conj :: PL -> [PL]}
-\label{sec:org2d3ea08}
-Dada una formula regresar una lista con las conjunciones de dicha formula.\\
+\label{sec:org50aaf73}
+Dada una fórmula regresar una lista con las conjunciones de dicha fórmula.\\
 Ejemplo: 
 \begin{itemize}
 \item Main> conj Oor (Oand (Var 1) Oneg \$ Var 2) (Oand Bot (Var 3))\\
 [Oand (Var 1) Oneg \$ Var 2, Oand Bot (Var 3)]
 \end{itemize}
 \subsubsection{numConj :: PL -> Int}
-\label{sec:org9b202e6}
-Dada una formula regresar el número de conjunciones que tiene dicha formula.\\
+\label{sec:org9cc558c}
+Dada una fórmula regresar el número de conjunciones que tiene dicha fórmula.\\
 Ejemplo:
 \begin{itemize}
 \item Main> conj Oor (Oand (Var 1) Oneg \$ Var 2) (Oand Bot (Var 3))\\
 2
 \end{itemize}
+\subsection{Semántica}
+\label{sec:orgb4af71c}
+Consideremos los tipos de datos Valuación y Modelo de la forma 
+\begin{verbatim}
+type Valuacion = Indice -> Bool
+type Modelo = [Indice]
+\end{verbatim}
+\subsubsection{satMod :: Modelo -> PL -> Bool}
+\label{sec:org76761ac}
+Dada una fórmula proposicional, evalúar la fórmula de acuerdo a un modelo.\\
+Ejemplos:
+\begin{itemize}
+\item Main> satMod [1] (Oneg (Var 1))\\
+False
+\item Main> satMod [] (Oimp (Var 1) (Var 2))\\
+True
+\end{itemize}
+\subsubsection{satPL :: Valuacion -> PL -> Bool}
+\label{sec:orga272c75}
+Dada una fórmula proposicional, evalúar la fórmula de acuerdo a una valuación.\\
+(Nota: en clase realizamos la función modeloToValuacion)
 \subsection{Formas normales}
-\label{sec:org7e15bbc}
+\label{sec:org9df0563}
 \subsubsection{esClausula :: PL -> Bool}
-\label{sec:orga80dd76}
-Dada una formula nos indica si es una clausula
+\label{sec:org344e232}
+Dada una fórmula nos indica si es una clausula.
+\subsubsection{esCNF :: PL -> Bool}
+\label{sec:orgfc834b5}
+Dada una fórmula nos indica si esta en forma normal de conjunción.
 \subsubsection{esTermino :: PL -> Bool}
-\label{sec:org7c07d32}
-Dada una formula nos indica si es un termino
+\label{sec:org8661a2d}
+Dada una fórmula nos indica si es un término.
+\subsubsection{esDNF :: PL -> Bool}
+\label{sec:org133e3a2}
+Dada una fórmula nos indica si esta en forma normal de disyunción.
+\subsubsection{toCNF :: PL -> PL}
+\label{sec:org2f172dd}
+Dada una fórmula en NNF y sin implicaciones, dar su CNF, tal que sean logicamente equivalentes.
 \end{document}

@@ -55,7 +55,6 @@ Dada una lista regresar la reversa de dicha lista.\\
 Ejemplos:
  * Main> reversa (Cons Cero (Cons (Suc (Suc Cero)) (Cons (Suc Cero) Nil)))\\
    Cons (Suc Cero) (Cons (Suc (Suc Cero)) (Cons Cero Nil))
-
 * Lógica Proposicional
 Consideremos la siguiente representación de la lógica proposicional.
 #+begin_src haskell
@@ -70,17 +69,39 @@ data PL = Top | Bot  | Var Indice
 #+end_src
 ** Conjunciones
 *** conj :: PL -> [PL]
-Dada una formula regresar una lista con las conjunciones de dicha formula.\\
+Dada una fórmula regresar una lista con las conjunciones de dicha fórmula.\\
 Ejemplo: 
  * Main> conj Oor (Oand (Var 1) Oneg $ Var 2) (Oand Bot (Var 3))\\
    [Oand (Var 1) Oneg $ Var 2, Oand Bot (Var 3)]
 *** numConj :: PL -> Int
-Dada una formula regresar el número de conjunciones que tiene dicha formula.\\
+Dada una fórmula regresar el número de conjunciones que tiene dicha fórmula.\\
 Ejemplo:
  * Main> conj Oor (Oand (Var 1) Oneg $ Var 2) (Oand Bot (Var 3))\\
    2
+** Semántica
+Consideremos los tipos de datos Valuación y Modelo de la forma 
+#+begin_src haskell
+type Valuacion = Indice -> Bool
+type Modelo = [Indice]
+#+end_src
+*** satMod :: Modelo -> PL -> Bool
+Dada una fórmula proposicional, evalúar la fórmula de acuerdo a un modelo.\\
+Ejemplos:
+ * Main> satMod [1] (Oneg (Var 1))\\
+   False
+ * Main> satMod [] (Oimp (Var 1) (Var 2))\\
+   True
+*** satPL :: Valuacion -> PL -> Bool
+Dada una fórmula proposicional, evalúar la fórmula de acuerdo a una valuación.\\
+(Nota: en clase realizamos la función modeloToValuacion)
 ** Formas normales
 *** esClausula :: PL -> Bool
-Dada una formula nos indica si es una clausula
+Dada una fórmula nos indica si es una clausula.
+*** esCNF :: PL -> Bool
+Dada una fórmula nos indica si esta en forma normal de conjunción.
 *** esTermino :: PL -> Bool
-Dada una formula nos indica si es un termino
+Dada una fórmula nos indica si es un término.
+*** esDNF :: PL -> Bool
+Dada una fórmula nos indica si esta en forma normal de disyunción.
+*** toCNF :: PL -> PL
+Dada una fórmula en NNF y sin implicaciones, dar su CNF, tal que sean logicamente equivalentes.
