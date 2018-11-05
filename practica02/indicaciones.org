@@ -1,0 +1,43 @@
+#+LATEX_CLASS: article
+#+LANGUAGE: es
+#+LATEX_HEADER: \usepackage[AUTO]{babel}
+#+LATEX_HEADER: \usepackage{fancyvrb}
+#+OPTIONS: toc:nil
+#+DATE:
+#+AUTHOR: Dr. Miguel Carrillo Barajas \\
+#+AUTHOR: Estefanía Prieto Larios \\
+#+AUTHOR: Mauricio Esquivel Reyes \\
+#+TITLE: Práctica 02 \\
+#+TITLE: Lógica Computacional \\
+#+TITLE: Universidad Nacional Autónoma de México
+* Deducción Natural
+Con los archivos que se incluyen se deberán realizar los siguientes ejercicios.
+** Agregar a checkPaso la implementación de:
+  1. Idis1: $A \vdash A \lor B$
+  2. Idis2: $B \vdash A \lor B$
+  3. Edis: $A \lor B, A \rightarrow C, B \rightarrow C \vdash C$
+  4. E2neg: $\neg \neg A \vdash A$
+** Dar una prueba de:
+  1. ((A \rightarrow B) \land (B \rightarrow C)) \rightarrow ((A \lor B) \rightarrow C)
+  2. Asumiendo A \rightarrow B y B \rightarrow C demostrar A \rightarrow C
+  3. ((A \lor B) \rightarrow C) \rightarrow ((A \rightarrow C) \land (B \rightarrow C))
+  4. (A \rightarrow (B \rightarrow C)) \rightarrow ((A \land B) \rightarrow C)
+  5. (A \rightarrow B) \rightarrow (B \rightarrow A)
+  6. A \rightarrow \neg \neg A
+  7. ((A \rightarrow B) \rightarrow A) \rightarrow A
+* Tableaus
+Con los archivos que se incluyen se deberán realizar los siguientes ejercicios.
+** Agregar a checkTableau la implementación de:
+Revisar las reglas en el capítulo 8 de Logic in Action.
+  1. ConD 
+  2. DisD
+  3. ImpI
+  4. ImpD
+  5. NegI
+  6. NegD
+  7. EquI
+  8. EquD
+
+** Ejemplos
+Crear los Tableaus que se indican el archivo DeduccionTableaus y usar checkTableau en ellos.
+En el README indicar el resultado que les dio.
