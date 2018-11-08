@@ -108,6 +108,23 @@ checkTableau t = case t of
                                    cf = elementosFaltantes v vh
                                    avh = conjPosibles (obtenAtomicas vh)
                                    vh = obtenListaIzquierda t
+  -- Conjuncion Derecha
+  (DosRamas s@(v,ts,f) ConD ti td) -> ts == Sep &&
+                                      length f == length fhi &&
+				      length f == length fhd &&
+				      cfi == cfd &&
+				      elem a fhi &&
+				      elem b fhd &&
+				      checkTableau ti &&
+				      checkTableau td
+				      where
+				       fhi = obtenListaDerecha ti
+				       fhd = obtenListaDerecha td
+				       cfi = elementosFaltantes f fhi
+				       cfd = elementosFaltantes f fhd
+				       c = cfi !! 0
+				       (a,b) = elementosCon c
+
   -- Disyunción Izquierda
   (DosRamas s@(v,ts,f) DisI ti td) -> ts == Sep && -- El sequent no debe estar abierto o cerrado
                                       length v == length vhi && -- Verificamos que sean del mismo tamaño
@@ -133,6 +150,8 @@ obtenListaIzquierda t = case t of
   Hoja s@(v,ts,f) -> v
   UnaRama s@(v,ts,f) r st -> v
   DosRamas s@(v,ts,f) r ti td -> v
+
+obtenListaDerecha :: Tableau -> [PL]
 
 -- Función que nos regresa la lista con los elementos que estan en la primera y no en la segunda
 elementosFaltantes :: [PL] -> [PL] -> [PL]
