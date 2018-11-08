@@ -1,4 +1,4 @@
-module DeduccionNatural8 (ReglaDN(..), showCheckDedNat) 
+module DeduccionNatural (ReglaDN(..), showCheckDedNat) 
 --Verifica que los pasos de una deduccion natural sean correctos.
 where
 import Data.List as L (delete,(\\)) 
@@ -126,6 +126,37 @@ checkPaso lprem lpp p = -- listaDePremisas listaDePasosPrevios pasoActual
                                         && h `eqCon2` fi    -- h es el conyunto 2 de fi: gi & hi |- hi
                                             where 
                                             fi = phiPasoNum i lpp -- paso i, fi= gi & hi
+        --Reglas para la disyuncion:
+        (m,(g `Oor` _, Idis1 i, lc)) -> lpp /= [] -- hay pasos previos
+                                        && m==nN+1 -- m se incrementa en 1.
+                                        && usableP i lcN nN -- i es usable, i<nN && i no esta en una caja cerrada
+                                        && lc == lcN -- las cajas no cambiaron
+                                        && g == fi
+                                            where 
+                                            fi = phiPasoNum i lpp
+        (m,(_ `Oor` g, Idis2 i, lc)) -> lpp /= [] -- hay pasos previos
+                                        && m==nN+1 -- m se incrementa en 1.
+                                        && usableP i lcN nN -- i es usable, i<nN && i no esta en una caja cerrada
+                                        && lc == lcN -- las cajas no cambiaron
+                                        && g == fi
+                                            where 
+                                            fi = phiPasoNum i lpp
+        (m,(w,Edis i j k,lc))       -> -- Eliminacion de la disyuncion: si fi=gvh, fj=g->w y fk=h->w, ent. fi,fj,fk |- w
+                                        lpp/=[]            -- hay pasos previos
+                                        && m==nN+1          -- m se incrementa en 1.
+                                        && lc== lcN         -- las cajas no cambiaron
+                                        && usableP i lc nN  -- i es usable, i<nN && i no esta en una caja cerrada 
+                                        && usableP j lc nN  -- j es usable, j<nN && j no esta en una caja cerrada 
+                                        && usableP k lc nN  -- k es usable, k<nN && k no esta en una caja cerrada 
+                                        -- 
+                                        && fiEsDisyuncion   -- fi= g`Oor`h
+                                        && fj==(g`Oimp`w)   -- fj= g->w
+                                        && fk==(h`Oimp`w)   -- fk= h->w  
+                                            where 
+                                            (fiEsDisyuncion,g,h) = esDisyuncion fi
+                                            fi  = phiPasoNum i lpp -- paso i
+                                            fj  = phiPasoNum j lpp -- paso j
+                                            fk  = phiPasoNum k lpp -- paso k
         --Reglas para la implicacion:
         (m,(_ `Oimp` h,Iimp i j,lc)) -> lpp/=[]                  -- hay pasos previos
                                         && m==nN+1                  -- m se incrementa en 1.
@@ -166,6 +197,13 @@ checkPaso lprem lpp p = -- listaDePremisas listaDePasosPrevios pasoActual
                                             where 
                                             fi= phiPasoNum i lpp -- paso i
                                             fj= phiPasoNum j lpp -- paso j
+        (m,(f,E2neg i,lc))             -> lpp /= []             -- hay pasos previos.
+                                        && m == nN+1            -- m se incrementa en 1.
+                                        && lc == lcN            -- las cajas no cambiaron.
+                                        && usableP i lc nN       -- i es usable, i<nN && i no esta en una caja cerrada
+                                        && fi == Oneg(Oneg f)  -- Si es la misma doble negacion.
+                                            where
+                                              fi = phiPasoNum i lpp
         -- Regla para suposiciones (Assumptions):
         (m,(_,Isup,lc))              -> m==nN+1                          -- m se incrementa en 1.
                                         && lc== lcN ++ [(nN+1,0)]           -- la caja (nN+1,0) se agrego a las cajas

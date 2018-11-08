@@ -152,4 +152,123 @@ huthRyanP8Ej6 = -- {(v1 ∧ v2) ∧ v3, v4 ∧ v5} |− v2 ∧ v4
         phi = v2∧v4
     in showCheckDedNat gamma lpasos phi 
 
+-- Pruebas
 
+-- 1. ((A⇒C)∧(B⇒C))⇒((A ∨ B)⇒ C)
+--Ejemplo p.12 de Thompson:
+thompsonP12c2 :: IO ()
+thompsonP12c2 = -- |− ((v1⇒v3)∧(v2⇒v3))⇒((v1 ∨ v2)⇒v3)
+    let v1= Var 1
+        v2= Var 2
+        v3= Var 3
+        gamma= []
+        (∧) :: PL->PL->PL
+        f∧g= Oand f g
+        (⇒) :: PL->PL->PL
+        f⇒g= Oimp f g
+        (∨) :: PL->PL->PL
+        f∨g= Oor f g
+        lpasos= [(1,((v1⇒v3)∧(v2⇒v3),                   Isup,       [(1,0)])), 
+                (2,((v1 ∨ v2),                          Isup,       [(1,0),(2,0)])),
+                (3,((v1⇒v3),                            Econ1 1,    [(1,0),(2,0)])),
+                (4,((v2⇒v3),                            Econ2 1,    [(1,0),(2,0)])),
+                (5,(v3,                                 Edis 2 3 4, [(1,0),(2,0)])),
+                (6,(((v1 ∨ v2) ⇒ v3),                   Iimp 2 5,   [(1,0),(2,5)])),
+                (7,(((v1⇒v3)∧(v2⇒v3))⇒((v1 ∨ v2)⇒v3),   Iimp 1 6,   [(1,6),(2,5)]))
+                ]
+        phi= ((v1⇒v3)∧(v2⇒v3))⇒((v1 ∨ v2)⇒v3)
+    in showCheckDedNat gamma lpasos phi
+-- 2. Asumiendo A⇒B y B⇒C, demostrar A⇒C
+-- Thompson 1.1
+thompsonUnoUno :: IO()
+thompsonUnoUno =
+  let v1 = Var 1
+      v2 = Var 2
+      v3 = Var 3
+      gamma = [v1⇒v2, v2⇒v3]
+      (⇒) :: PL->PL->PL
+      f⇒g = Oimp f g
+      lpasos = [ (1, ( v1⇒v2,        Prem, [])),
+                 (2, ( v2⇒v3,        Prem, [])),
+                 (3, ( v1,           Isup, [(3,0)])),
+                 (4, ( v2,           Eimp 3 1, [(3,0)])),
+                 (5, ( v3,           Eimp 4 2, [(3,0)])),
+                 (6, ( v1⇒v3,      Iimp 3 5, [(3,5)]))]
+      phi = v1 ⇒ v3
+       in
+      showCheckDedNat gamma lpasos phi
+-- 3. ((A ∨ B)⇒C) ⇒ ((A⇒C)∧(B⇒C))
+-- Thompson 1.2 
+thompsonUnoDos :: IO()
+thompsonUnoDos =
+  let
+    v1 = Var 1
+    v2 = Var 2
+    v3 = Var 3
+    gamma = []
+    (⇒) :: PL->PL->PL
+    f⇒g = Oimp f g
+    (∧) :: PL->PL->PL
+    f∧g = Oand f g
+    (∨) :: PL->PL->PL
+    f∨g = Oor f g
+    lpasos = [ (1, ( (v1∨v2)⇒v3,       Isup, [(1,0)])),
+               (2, ( v1,               Isup, [(1,0),(2,0)])),
+               (3, ( v1∨v2,            Idis1 2, [(1,0),(2,0)])),
+               (4, ( v3,               Eimp 3 1, [(1,0),(2,0)])),
+               (5, ( v1⇒v3,            Iimp 2 4, [(1,0),(2,4)])),
+               (6, ( v2,               Isup, [(1,0),(2,4),(6,0)])),
+               (7, ( v1∨v2,            Idis2 6, [(1,0),(2,4),(6,0)])),
+               (8, ( v3,               Eimp 7 1, [(1,0),(2,4),(6,0)])),
+               (9, ( v2⇒v3,            Iimp 6 8, [(1,0),(2,4),(6,8)])),
+               (10,( (v1⇒v3)∧(v2⇒v3),  Icon 5 9, [(1,0),(2,4),(6,8)])),
+               (11,( ((v1∨v2)⇒v3) ⇒ ((v1 ⇒ v3) ∧ (v2 ⇒ v3)), Iimp 1 10,[(1,10)]))]
+    phi = ((v1∨v2)⇒v3) ⇒ ((v1 ⇒ v3) ∧ (v2 ⇒ v3))
+     in
+    showCheckDedNat gamma lpasos phi
+
+-- 4. (A ⇒ (B ⇒ C)) ⇒ ((A ∧ B) ⇒ C)
+-- Thompson 1.3
+thompsonUnoTres :: IO()
+thompsonUnoTres =
+  let
+    v1 = Var 1
+    v2 = Var 2
+    v3 = Var 3
+    gamma = []
+    (⇒) :: PL->PL->PL
+    f⇒g = Oimp f g
+    (∧) :: PL->PL->PL
+    f∧g = Oand f g
+    lpasos = [ (1, ( v1⇒(v2⇒v3),     Isup, [(1,0)])),
+               (2, ( v1∧v2,          Isup, [(1,0),(2,0)])),
+               (3, ( v1,             Econ1 2, [(1,0),(2,0)])),
+               (4, ( v2,             Econ2 2, [(1,0),(2,0)])),
+               (5, ( v2⇒v3,          Eimp 3 1, [(1,0),(2,0)])),               
+               (6, ( v3,             Eimp 4 5, [(1,0),(2,0)])),
+               (7, ( (v1∧v2)⇒v3,     Iimp 2 6, [(1,0),(2,6)])),
+               (8, ( (v1⇒(v2⇒v3))⇒((v1∧v2)⇒v3) , Iimp 1 7, [(1,7),(2,6)]))]
+    phi = (v1⇒(v2⇒v3))⇒((v1∧v2)⇒v3)
+     in
+    showCheckDedNat gamma lpasos phi
+
+-- 5. (A ⇒ B) ⇒ (B ⇒ A)
+-- Thompson 1.4
+thompsonUnoCuatro :: IO()
+thompsonUnoCuatro =
+  let
+    v1 = Var 1
+    v2 = Var 2
+    gamma = []
+    (⇒) :: PL->PL->PL
+    f⇒g = Oimp f g
+    (¬) :: PL -> PL
+    ¬ f = Oneg f
+    lpasos = [ (1, ( v1⇒v2,   Isup,[(1,0)])),
+               (2, ( v1,       Isup,[(1,0),(2,0)])),
+               (3, ( v2,       Eimp 2 1, [(1,0),(2,0)])),
+               (4, ( v2⇒v1,   Iimp 3 2, [(1,0),(2,3)])),
+               (5, ( (v1⇒v2) ⇒ (v2⇒v1), Iimp 1 4,[(1,4),(2,3)]))]
+    phi = (v1⇒v2) ⇒ (¬v2⇒¬v1)
+     in
+    showCheckDedNat gamma lpasos phi
