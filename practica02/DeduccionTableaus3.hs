@@ -1,4 +1,4 @@
-module DeduccionTableaus3 (ramasCerradas,ramaAbierta,checkTableau,impLogicaConTableaus)
+module DeduccionTableaus3 
 --Verifica que una deduccion mediante un tableau sea correcta.
 --mcb
 where
@@ -49,25 +49,7 @@ data Tableau    =  -- Un tableau es un arbol de "sequents"
                 | DosRamas Sequent ReglaT Tableau Tableau   -- arbol de dos ramas (izquierda y derecha)
                 deriving (Eq,Show)
 
---
---
---
---Tableaus: -----------------------------------------------------------------------------
--- 
--- 1. Representar con una variable de tipo Tableau los dos tableaus de 
--- la figura 8.1 (p.8-6) de vanBenthem-vanEijck. Logic in Action, Capítulo 8.
--- tFig8_1a :: Tableau
--- tFig8_1a = ...
--- tFig8_1b :: Tableau
--- tFig8_1b = ...
---
--- 2. Representar con una variable de tipo Tableau los dos tableaus de 
--- la figura 8.2 (p.8-7) de vanBenthem-vanEijck. Logic in Action, Capítulo 8.
--- tFig8_2a :: Tableau
--- tFig8_2a = ...
--- tFig8_2b :: Tableau
--- tFig8_2b = ...
---
+
 -- Definir una funcion, hojasDe, tal que: dado un tableau t, entregue una lista con las hojas de t.
 --
 hojasDe :: Tableau -> [Sequent]
@@ -200,7 +182,7 @@ checkTableau t = case t of
                             _           -> False -- phi debe ser una disyuncion
             (ConD,phi)  ->
                         case phi of
-                            Oand g h  -> ts == Sep     -- El secuente no debe estar abierto o cerrado
+                            Oand g h   -> ts == Sep     -- El secuente no debe estar abierto o cerrado
                                         && phi `elem` f -- phi debe estar en el secuente izq.
                                         && vI `eqLists` v
                                         && fI `eqLists` ((f\\[phi])++[g])
@@ -210,7 +192,17 @@ checkTableau t = case t of
                                         && checkTableau td -- Revisamos recursivamente td
                             _           -> False -- phi debe ser una disyuncion
 
-            (ImpI,phi)  -> error $ "Regla no implementada aun: "++show (ImpI,phi)
+            (ImpI,phi)  ->
+                        case phi of
+                          Oimp g h     -> ts == Sep -- El secuente no debe estar abierto o cerrado
+                                        && phi `elem` v
+                                        && vI `eqLists` (v\\[phi])
+                                        && fI `eqLists` (f ++ [g])
+                                        && vD `eqLists` ((v\\[phi]) ++ [h])
+                                        && fD `eqLists` f
+                                        && checkTableau ti -- Revisamos recursivamente ti
+                                        && checkTableau td -- Revisamos recursivamente td
+                          _            -> False -- phi debe ser una implicacion
             (EquI,phi)  -> error $ "Regla no implementada aun: "++show (EquI,phi)
             (EquD,phi)  -> error $ "Regla no implementada aun: "++show (EquD,phi)
             _           -> False -- No hay mas reglas que produzcan dos ramas
@@ -230,3 +222,4 @@ impLogicaConTableaus cGamma phi t =
     (v,f)= secuenteDeRaiz t -- secuente de la raiz de t
 --    
 --
+

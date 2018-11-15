@@ -1,23 +1,61 @@
 module DeduccionTableausEjemplos
 where
 import SintaxisPL
-import DeduccionTableaus
+import DeduccionTableaus3 
 
 
--- Ejemplos de Tableaus para verificar las reglas ya hechas
 
-tEjem1 :: Bool
-tEjem1 = -- ([v1 ∧ v2],Sep,[v1]) --ConI--> ([v1,v2],Closed,[v1])
-    let 
-        v1= Var 1
-        v2= Var 2
-    in
-    checkTableau (UnaRama ([Oand v1 v2],Sep,[v1]) ConI (Hoja ([v1,v2],Closed,[v1])))
+--
+--
+--
+--Tableaus: -----------------------------------------------------------------------------
+-- 
+-- 1. Representar con una variable de tipo Tableau los dos tableaus de 
+-- la figura 8.1 (p.8-6) de vanBenthem-vanEijck. Logic in Action, Capítulo 8.
+-- tFig8_1a :: Tableau
+-- tFig8_1a = ...
+-- tFig8_1b :: Tableau
+-- tFig8_1b = ...
+--
+-- 2. Representar con una variable de tipo Tableau los dos tableaus de 
+-- la figura 8.2 (p.8-7) de vanBenthem-vanEijck. Logic in Action, Capítulo 8.
+-- tFig8_2a :: Tableau
+-- tFig8_2a = ...
+-- tFig8_2b :: Tableau
+-- tFig8_2b = ...
+--
 
-tEjem2 :: Bool
-tEjem2 =
+tFig8_1a :: Tableau
+tFig8_1a =
   let
-    v1 = Var 1
-    v2 = Var 2
-    in
-    checkTableau (DosRamas ([Oor v1 v2], Sep,[v1,v2]) DisI (Hoja ([v1], Closed, [v1,v2])) (Hoja ([v2], Closed, [v1,v2])))
+    v1= Var 1
+    v2= Var 2
+    v3= Var 3
+    (∧) :: PL->PL->PL
+    f∧g= Oand f g
+    (∨) :: PL->PL->PL
+    f∨g= Oor f g
+  in
+    (UnaRama ([v1∧(v2∨v3)],Sep,[(v1∧v2)∨v3]) (ConI,v1∧(v2∨v3))
+    (UnaRama ([v1,v2∨v3],Sep,[(v1∧v2)∨v3]) (DisD,(v1∧v2)∨v3)
+    (DosRamas ([v1,v2∨v3],Sep,[(v1∧v2),v3]) (DisI,v2∨v3) -- Primera doble Rama
+    (DosRamas ([v1,v2],Sep,[(v1∧v2),v3]) (ConD, v1∧v2)
+    (Hoja ([v1,v2],Closed,[v1,v3]))
+    (Hoja ([v1,v2],Closed,[v2,v3])))
+    (Hoja ([v1,v3],Closed,[v1∧v2,v3])))))
+
+tFig8_1a_dem :: Bool
+tFig8_1a_dem =
+  let v1= Var 1
+      v2= Var 2
+      v3= Var 3
+      gamma= [(v1∧(v2∨v3))]
+      phi= ((v1∧v2)∨v3)
+      (∧) :: PL->PL->PL
+      f∧g= Oand f g
+      (∨) :: PL->PL->PL
+      f∨g= Oor f g
+      (⇒) :: PL->PL->PL
+      f⇒g= Oimp f g
+   in
+      impLogicaConTableaus gamma phi tFig8_1a
