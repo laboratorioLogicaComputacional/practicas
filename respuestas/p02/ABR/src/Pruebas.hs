@@ -32,6 +32,12 @@ import DeduccionNatural (ReglaDN(..),showCheckDedNat)
 
 
 
+{-
+Esta bien esta demostración pero no es el ejercicio que se indico ya que no se debía asumir nada:
+{(v1 -> v2),(v2 -> v3)} |- ((v1 | v2) -> v3)
+y el ejercio era:
+|- ((v1 -> v2)∧(v2 -> v3)) -> ((v1 | v2) -> v3)
+-}
 prueba1 :: IO ()
 prueba1 =
     let v1= Var 1
@@ -61,6 +67,10 @@ prueba1 =
         phi = (v1°v2)⇒v3
     in showCheckDedNat gamma lpasos phi
 
+{-
+Bien realizado
+
+-}
 prueba2 :: IO ()
 prueba2 =
     let v1= Var 1
@@ -84,6 +94,13 @@ prueba2 =
                 ]
         phi = v1⇒v3
     in showCheckDedNat gamma lpasos phi
+
+{-
+Esta bien esta demostración pero no es el ejercicio dado. Este asume:
+{((v1 | v2) -> v3)} |- ((v1 -> v3) & (v2 -> v3))
+El que se dejo fue el:
+|- (((v1 | v2) -> v3) -> ((v1 -> v3) & (v2 -> v3)))
+-}
 
 prueba3 :: IO ()
 prueba3 =
@@ -114,6 +131,13 @@ prueba3 =
                 ]
         phi = (v1⇒v3)∧(v2⇒v3)
     in showCheckDedNat gamma lpasos phi
+
+{-
+Esta bien esta demostración pero no es el ejercicio dado. Este asume:
+{((v1 | v2) -> v3)} |- ((v1 -> v3) & (v2 -> v3))
+El que se dejo fue el:
+|- (((v1 | v2) -> v3) -> ((v1 -> v3) & (v2 -> v3)))
+-}
 
 prueba4 :: IO ()
 prueba4 =

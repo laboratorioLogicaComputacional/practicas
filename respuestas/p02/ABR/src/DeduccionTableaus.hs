@@ -215,7 +215,7 @@ checkTableau t = case t of
                    fh = obtenListaDerecha t
 
   --Doble implicacion Derecha
-  (DosRamas s@(v,ts,f) EquI ti td) -> ts == Sep && -- El seuquent no debe estar abierto o cerrado
+  (DosRamas s@(v,ts,f) EquD ti td) -> ts == Sep && -- El seuquent no debe estar abierto o cerrado
                                       length v + 1 == length vh  && -- La lista resultante debe tener un elemento más ([Oneg v1 ], [v1])
                                       length f + 2 == length fh  && -- La lista resultante debe tener un elemento menos ([Oneg v1 ], [])
                                       conjFaltante dv avh && -- Verificamos que se elimino de manera correcta la negacion
